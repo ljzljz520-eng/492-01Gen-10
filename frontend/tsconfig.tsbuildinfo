@@ -1,0 +1,1 @@
+{"root":["./src/app.tsx","./src/main.tsx","./src/api/index.ts","./src/pages/adminpage.tsx","./src/pages/certificationpage.tsx","./src/pages/homepage.tsx","./src/pages/registerpage.tsx","./src/pages/statisticspage.tsx","./src/pages/substitutepage.tsx","./src/pages/volunteerportal.tsx","./src/types/index.ts"],"errors":true,"version":"5.9.3"}
