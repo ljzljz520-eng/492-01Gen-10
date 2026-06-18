@@ -21,11 +21,11 @@ export default function CertificationPage() {
 
   const fetchData = () => {
     Promise.all([
-      api.get('/volunteers'),
-      api.get('/certifications')
+      api.get<Volunteer[]>('/volunteers'),
+      api.get<Certification[]>('/certifications')
     ]).then(([v, c]) => {
-      setVolunteers(v as Volunteer[])
-      setCertifications(c as Certification[])
+      setVolunteers(v)
+      setCertifications(c)
     })
   }
 

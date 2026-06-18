@@ -17,7 +17,7 @@ export default function HomePage() {
   const [stats, setStats] = useState<StatsSummary | null>(null)
 
   useEffect(() => {
-    api.get('/statistics/summary').then((data) => setStats(data))
+    api.get<StatsSummary>('/statistics/summary').then((data) => setStats(data))
   }, [])
 
   return (

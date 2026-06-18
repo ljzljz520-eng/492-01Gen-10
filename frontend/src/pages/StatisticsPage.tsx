@@ -15,13 +15,13 @@ export default function StatisticsPage() {
 
   useEffect(() => {
     Promise.all([
-      api.get('/statistics/summary'),
-      api.get('/statistics/positions'),
-      api.get('/volunteers')
+      api.get<any>('/statistics/summary'),
+      api.get<any[]>('/statistics/positions'),
+      api.get<Volunteer[]>('/volunteers')
     ]).then(([s, p, v]) => {
       setSummary(s)
       setPositionStats(p)
-      setVolunteers(v as Volunteer[])
+      setVolunteers(v)
       setLoading(false)
     })
   }, [])
@@ -203,10 +203,10 @@ export default function StatisticsPage() {
             <div>
               <h4 className="font-bold mb-4 text-gray-700">📋 岗位参与分布</h4>
               <div className="space-y-3">
-                {Object.entries(volunteerStats.skill_stats).map(([key, count]) => {
+                {Object.entries(volunteerStats.skill_stats as Record<string, number>).map(([key, count]) => {
                   const label = POSITION_TYPE_MAP[key] || key
-                  const total = Object.values(volunteerStats.skill_stats).reduce((s: number, n: any) => s + (n as number), 0) || 1
-                  const pct = ((count as number) / total) * 100
+                  const total = Object.values(volunteerStats.skill_stats as Record<string, number>).reduce((s: number, n: number) => s + n, 0) || 1
+                  const pct = (count / total) * 100
                   const meta: Record<string, string> = { language: '🌐', medical: '🏥', guidance: '🧭', security: '🛡️' }
                   return (
                     <div key={key}>

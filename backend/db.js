@@ -5,7 +5,23 @@ const { promisify } = require('util')
 const dbPath = path.join(__dirname, 'volunteer.db')
 const db = new sqlite3.Database(dbPath)
 
-db.run = promisify(db.run).bind(db)
+const originalRun = db.run.bind(db)
+db.run = function(sql, ...params) {
+  let args = []
+  if (params.length === 0) {
+    args = []
+  } else if (params.length === 1 && Array.isArray(params[0])) {
+    args = params[0]
+  } else {
+    args = params
+  }
+  return new Promise((resolve, reject) => {
+    originalRun(sql, args, function(err) {
+      if (err) reject(err)
+      else resolve({ lastID: this.lastID, changes: this.changes })
+    })
+  })
+}
 db.get = promisify(db.get).bind(db)
 db.all = promisify(db.all).bind(db)
 db.exec = promisify(db.exec).bind(db)
